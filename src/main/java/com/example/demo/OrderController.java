@@ -30,7 +30,10 @@ public class OrderController {
 
     @GetMapping("/orders")
     CollectionModel<EntityModel<Order>> all() {
-        List<EntityModel<Order>> orders = repository.findAll().stream().map(assembler::toModel).collect(Collectors.toList());
+        List<EntityModel<Order>> orders = repository.findAll().stream()
+                .map(assembler::toModel)
+                .collect(Collectors.toList());
+
         return CollectionModel.of(orders,
                 linkTo(methodOn(OrderController.class).all()).withSelfRel());
     }
@@ -53,7 +56,7 @@ public class OrderController {
     }
 
     @DeleteMapping("/orders/{id}/cancel")
-    ResponseEntity<?> cancel(@RequestBody Long id) {
+    ResponseEntity<?> cancel(@PathVariable Long id) {
         Order order = repository.findById(id)
                 .orElseThrow(() -> new OrderNotFoundException(id));
 
