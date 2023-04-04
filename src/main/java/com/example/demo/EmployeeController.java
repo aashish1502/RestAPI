@@ -10,7 +10,11 @@ import java.util.stream.Collectors;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
-
+/*
+* TODO:
+*  1. Fix the create order code
+*  2. Make it so that if any param is not there the code does not saves it into the db.
+* */
 @RestController
 public class EmployeeController {
 

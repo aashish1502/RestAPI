@@ -3,6 +3,7 @@ package com.example.demo;
 import jakarta.persistence.Id;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.IanaLinkRelations;
 import org.springframework.hateoas.MediaTypes;
 import org.springframework.hateoas.mediatype.problem.Problem;
 import org.springframework.http.HttpHeaders;
@@ -71,6 +72,12 @@ public class OrderController {
                         .withTitle("Method not allowed")
                         .withDetail("You can't cancel an order that is in the " + order.getStatus() + " status"));
 
+    }
+
+    @PostMapping("/order")
+    ResponseEntity<?> createOrder(@RequestBody Order newOrder) {
+        EntityModel<Order> entityModel = assembler.toModel(repository.save(newOrder));
+        return ResponseEntity.created(entityModel.getRequiredLink(IanaLinkRelations.SELF).toUri()).body(entityModel);
     }
 
     @PutMapping("/orders/{id}/complete")
